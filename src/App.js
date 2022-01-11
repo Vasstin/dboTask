@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import TableRow from './Components/tableRow';
 import './App.css';
 
@@ -27,29 +27,30 @@ function App() {
       totalPrice: 0
     }
   ])
-  console.log(tableState)
 
-  useEffect(() => {
-    const updatedTotalPrice = tableState.map(item => {
-      const totalprice = item.amount * item.price
-      return {
-        ...item,
-        totalPrice: totalprice
-      }
-    })
-    setTableState(updatedTotalPrice)
-  }, [])
+  // useEffect(() => {
+  //   const updatedTotalPrice = tableState.map(item => {
+      
+  //     const totalprice = item.amount * item.price
+
+  //     return {
+  //       ...item,
+  //       totalPrice: totalprice
+  //     }
+  //   })
+  //   setTableState(updatedTotalPrice)
+  // }, [])
+  const allPrice = tableState.map(item => item.totalPrice).reduce((sum, current) => sum + current, 0)
 
   function updateAmount(id, value) {
     const updatedAmountState = tableState.map(item => {
       if(item.id === id) {
-
         return {
           ...item,
-          amount: value,
+          totalPrice: value * item.price,
+          amount: +value,
         }
       }
-
       return item
     })
     
@@ -62,7 +63,8 @@ function App() {
       if(item.id === id) {        
         return {
           ...item,
-          price: value,
+          totalPrice: item.amount * value,
+          price: +value,
         }
       }
       return item
@@ -102,7 +104,7 @@ function App() {
         <tfoot className = "footer">
           <tr>
             <td colSpan = '3'>Общая стоимость товаров</td>
-            <td>{}</td>
+            <td>{allPrice}</td>
           </tr>
         </tfoot>
       </table>
