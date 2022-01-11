@@ -28,18 +28,25 @@ function App() {
     }
   ])
 
-  // useEffect(() => {
-  //   const updatedTotalPrice = tableState.map(item => {
-      
-  //     const totalprice = item.amount * item.price
+  const [ isSorted, setIsSorted] = useState({
+    sortedByPrice: "up"
+  })
 
-  //     return {
-  //       ...item,
-  //       totalPrice: totalprice
-  //     }
-  //   })
-  //   setTableState(updatedTotalPrice)
-  // }, [])
+  console.log(isSorted)
+  // useEffect(() => {
+  //   console.log(tableState)
+  //   function sortByPrice() {
+  //     // let sortedRow = tableState.sort((a, b) => a.totalPrice - b.totalPrice);
+  //     // console.log(sortedRow)
+  //     // sortedRow = tableState.map(item => {
+  //     //   console.log(item)       
+  //     //     return {
+  //     //       ...item
+  //     //     }
+  //     // })
+  //     setTableState(tableState.sort((a, b) => a.totalPrice - b.totalPrice))
+  //   }
+  // }, [tableState])
   const allPrice = tableState.map(item => item.totalPrice).reduce((sum, current) => sum + current, 0)
 
   function updateAmount(id, value) {
@@ -73,19 +80,47 @@ function App() {
     setTableState(updatedPriceState)
   }
 
- 
-
+  function sortByPrice() {
+    let sortedRow;
+    if(isSorted.sortedByPrice === 'up') {
+      setIsSorted(
+        { 
+          ...isSorted, 
+          sortedByPrice: "down"
+        })
+      sortedRow = tableState.sort((a, b) => a.totalPrice - b.totalPrice);
+      sortedRow = tableState.map(item => { 
+          return {
+            ...item
+          }
+      })
+    } else if(isSorted.sortedByPrice === 'down') {
+      setIsSorted(
+        { 
+          ...isSorted, 
+          sortedByPrice: "up"
+        })
+      sortedRow = tableState.sort((a, b) => b.totalPrice - a.totalPrice);
+      sortedRow = tableState.map(item => { 
+          return {
+            ...item
+          }
+      })
+    }
+    setTableState(sortedRow)
+  }
+  console.log(tableState)
   let row = tableState.map(item => 
     <TableRow 
       id = {item.id}
       product = {item.product}
       price = {item.price}
+      amount = {item.amount}
       totalPrice = {item.totalPrice}
       updateAmount = {updateAmount}
       updatePrice = {updatePrice}
     >
     </TableRow>)
-
 
   return (
     <div className="App">
@@ -95,7 +130,7 @@ function App() {
             <th>Название товара</th>
             <th>Количество</th>
             <th>Стоимость 1 ед.</th>
-            <th>Общая Стоимость</th>
+            <th className = 'sortButton' onClick={sortByPrice}>Общая Стоимость</th>
           </tr>
         </thead>
         <tbody className = 'body'>

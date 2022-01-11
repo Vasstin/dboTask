@@ -82,3 +82,7 @@ td:first-child {
 .footer tr:hover {
   background-color: lightblue;
 }
+
+.sortButton:hover {
+  text-decoration: underline;
+}
