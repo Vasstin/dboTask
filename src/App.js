@@ -29,10 +29,9 @@ function App() {
   ])
 
   const [ isSorted, setIsSorted] = useState({
-    sortedByPrice: "up"
+    sortedByPrice: 'up'
   })
 
-  console.log(isSorted)
   // useEffect(() => {
   //   console.log(tableState)
   //   function sortByPrice() {
@@ -109,7 +108,7 @@ function App() {
     }
     setTableState(sortedRow)
   }
-  console.log(tableState)
+  
   let row = tableState.map(item => 
     <TableRow 
       id = {item.id}
@@ -121,6 +120,15 @@ function App() {
       updatePrice = {updatePrice}
     >
     </TableRow>)
+  
+  let styleSortByPrice = 'sortButton';
+  if(isSorted.sortedByPrice === 'up') {
+    styleSortByPrice += ' sortUp'
+  } else if(isSorted.sortedByPrice === 'down') {
+    styleSortByPrice += ' sortDown'
+  } else {
+
+  }
 
   return (
     <div className="App">
@@ -130,7 +138,7 @@ function App() {
             <th>Название товара</th>
             <th>Количество</th>
             <th>Стоимость 1 ед.</th>
-            <th className = 'sortButton' onClick={sortByPrice}>Общая Стоимость</th>
+            <th className = {styleSortByPrice} onClick={sortByPrice}>Общая Стоимость</th>
           </tr>
         </thead>
         <tbody className = 'body'>

@@ -86,3 +86,25 @@ td:first-child {
 .sortButton:hover {
   text-decoration: underline;
 }
+
+.sortDown::after {
+    content: ''; 
+    position: relative; 
+    border: 5px solid transparent; 
+    border-bottom: 10px solid white;
+    top: -13px;
+    right: -5px;
+    
+}
+
+.sortUp::after {
+  content: ''; 
+  position: relative; 
+  border: 5px solid transparent; 
+  border-top: 10px solid white;
+  bottom: -18px;
+  right: -5px;
+  
+}
+
+
